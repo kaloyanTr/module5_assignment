@@ -62,7 +62,6 @@ var switchMenuToActive = function () {
 
 // On page load (before images or CSS)
 document.addEventListener("DOMContentLoaded", function (event) {
-
 // TODO: STEP 0: Look over the code from
 // *** start ***
 // to
@@ -83,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 showLoading("#main-content");
 $ajaxUtils.sendGetRequest(
   allCategoriesUrl,
+  homeHtml,
   function (responseText) {
     document.querySelector("#main-content").innerHTML = responseText;
   }, // ***** <---- TODO: STEP 1: Substitute [...] ******
@@ -99,19 +99,6 @@ function buildAndShowHomeHTML (categories) {
   $ajaxUtils.sendGetRequest(
     homeHtmlUrl,
     function (homeHtml) {
-
-        $ajaxUtils.sendGetRequest(chooseRandomCategory,
-        function (categories) {
-          // Switch CSS class active to menu button
-          switchMenuToActive();
-
-          var categoriesViewHtml =
-            buildCategoriesViewHtml(categories,
-                                    categoriesTitleHtml,
-                                    categoryHtml);
-          insertHtml("#main-content", categoriesViewHtml);
-        },
-        false);
 
       // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
       // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
@@ -143,8 +130,6 @@ function buildAndShowHomeHTML (categories) {
     },
     false); // False here because we are getting just regular HTML from the server, so no need to process JSON.
 }
-
-
 // Given array of category objects, returns a random category object.
 function chooseRandomCategory (categories) {
   // Choose a random index into the array (from 0 inclusively until array length (exclusively))
